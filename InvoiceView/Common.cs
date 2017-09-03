@@ -36,6 +36,7 @@ namespace InvoiceView
         //税额
         public static List<string> TaxAmount = new List<string>();
        
+        
 
         public static string CompanyName
         {

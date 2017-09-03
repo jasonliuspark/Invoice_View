@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
+    <Compile Include="DataGridHandler.cs" />
     <Compile Include="Mainform.cs">
       <SubType>Form</SubType>
     </Compile>
