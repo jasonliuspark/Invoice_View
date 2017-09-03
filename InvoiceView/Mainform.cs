@@ -19,18 +19,32 @@ namespace InvoiceView
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-
-            int high = this.Height;
-            int width = this.Width;
-
-            Company_Name.Height = high / 4 - 5;
-
-            Company_Name.Width = width / 4 - 5;
+            
 
 
         }
 
         private void Generate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Invoice_Title_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void Company_Name_TextChanged(object sender, EventArgs e)
         {
 
         }
