@@ -56,7 +56,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replacer.cs" />
+    <Compile Include="Subtotal.cs" />
     <Compile Include="TextHandler.cs" />
+    <Compile Include="UperConvert.cs" />
     <EmbeddedResource Include="Mainform.resx">
       <DependentUpon>Mainform.cs</DependentUpon>
     </EmbeddedResource>

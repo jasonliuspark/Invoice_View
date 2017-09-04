@@ -1,7 +1,10 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
+using System.Data;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 namespace InvoiceView
 {
     partial class Mainform
@@ -33,6 +36,7 @@ namespace InvoiceView
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mainform));
             this.Invoice_Title = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -56,8 +60,11 @@ namespace InvoiceView
             this.Company_Name = new System.Windows.Forms.TextBox();
             this.Contract_serial = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.commonBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.InvoiceNote = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.Invoice_Details)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.commonBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // Invoice_Title
@@ -99,9 +106,10 @@ namespace InvoiceView
             this.Invoice_Details.Margin = new System.Windows.Forms.Padding(2);
             this.Invoice_Details.Name = "Invoice_Details";
             this.Invoice_Details.RowTemplate.Height = 28;
-            this.Invoice_Details.Size = new System.Drawing.Size(848, 90);
+            this.Invoice_Details.Size = new System.Drawing.Size(848, 188);
             this.Invoice_Details.TabIndex = 6;
-            this.Invoice_Details.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.Invoice_Details.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Invoice_Details_CellContentClick);
+            this.Invoice_Details.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Invoice_Details_CellValueChanged);
             // 
             // Item_Name
             // 
@@ -174,14 +182,14 @@ namespace InvoiceView
             // 
             this.Address_Tele.Location = new System.Drawing.Point(231, 182);
             this.Address_Tele.Name = "Address_Tele";
-            this.Address_Tele.Size = new System.Drawing.Size(336, 21);
+            this.Address_Tele.Size = new System.Drawing.Size(532, 21);
             this.Address_Tele.TabIndex = 10;
             // 
             // Bank_Account
             // 
             this.Bank_Account.Location = new System.Drawing.Point(231, 200);
             this.Bank_Account.Name = "Bank_Account";
-            this.Bank_Account.Size = new System.Drawing.Size(336, 21);
+            this.Bank_Account.Size = new System.Drawing.Size(532, 21);
             this.Bank_Account.TabIndex = 11;
             // 
             // Amount_Upper
@@ -240,12 +248,25 @@ namespace InvoiceView
             this.label1.TabIndex = 18;
             this.label1.Text = "客户合同号";
             // 
+            // commonBindingSource
+            // 
+            this.commonBindingSource.DataSource = typeof(InvoiceView.Common);
+            // 
+            // InvoiceNote
+            // 
+            this.InvoiceNote.Location = new System.Drawing.Point(589, 442);
+            this.InvoiceNote.Multiline = true;
+            this.InvoiceNote.Name = "InvoiceNote";
+            this.InvoiceNote.Size = new System.Drawing.Size(341, 85);
+            this.InvoiceNote.TabIndex = 19;
+            // 
             // Mainform
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 586);
+            this.Controls.Add(this.InvoiceNote);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Contract_serial);
             this.Controls.Add(this.Company_Name);
@@ -262,11 +283,13 @@ namespace InvoiceView
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Mainform";
+            this.Load += new System.EventHandler(this.Mainform_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainFormDragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainFormDragEnter);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.Invoice_Details)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.commonBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -274,11 +297,12 @@ namespace InvoiceView
 
         #endregion
 
-      
+
         
 
         private void MainFormDragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
+            
             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
             { e.Effect = DragDropEffects.Link;
             }
@@ -292,6 +316,7 @@ namespace InvoiceView
         //Darg drop
         private void MainFormDragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
+            Common.dt.Rows.Clear();
             // retrive label.Text for path 
             Invoice_Title.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
 
@@ -305,8 +330,14 @@ namespace InvoiceView
             Bank_Account.Text = Common.AccountDetails;
             Contract_serial.Text = Common.ContractNum;
             IssueerName.Text = Common.Issuer;
+
+           Amount_Low.Text= Subtotal.SubtotalCount(Invoice_Details);
+            UperConvert conv = new UperConvert();
+            Amount_Upper.Text = conv.Uper(Subtotal.SubtotalCount(Invoice_Details));
+
         }
 
+       
 
 
 
@@ -333,6 +364,8 @@ namespace InvoiceView
         private TextBox Company_Name;
         private TextBox Contract_serial;
         private Label label1;
+        private BindingSource commonBindingSource;
+        private TextBox InvoiceNote;
     }
 }
 

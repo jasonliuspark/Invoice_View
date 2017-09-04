@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace InvoiceView
 {
@@ -18,6 +19,7 @@ namespace InvoiceView
         private static string addressPhone = "";
         private static string accountDetails = "";
 
+        public static DataTable dt = new DataTable();
         //arrays
         //货物或应税劳务名称
         public static List<string> ItemNames = new List<string>();
@@ -35,8 +37,9 @@ namespace InvoiceView
         public static List<string> TaxRate = new List<string>();
         //税额
         public static List<string> TaxAmount = new List<string>();
-       
+
         
+
 
         public static string CompanyName
         {

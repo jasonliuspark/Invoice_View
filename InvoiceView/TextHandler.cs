@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Data;
 using System.Diagnostics;
 
 namespace InvoiceView
@@ -61,20 +62,35 @@ namespace InvoiceView
                     default:
 
                         {
-                            media = Spliter(line);
-                            //foreach (string im in media)
-                            //{
-                            //    Trace.WriteLine(im);
-                            //}
-                            
+                            if (line != ""&&line!=" ")
+                            {
+                                double q, u, a, t, ta;
+                                media = Spliter(line);
+                                Trace.WriteLine(line);
+                                //foreach (string im in media)
+                                //{
+                                //    Trace.WriteLine(im);
+                                //}
+                                //UpdateDataTable();
+
+
+                                double.TryParse(media[3], out q);
+                                double.TryParse(media[4], out u);
+                                a = q * u;
+                               // double.TryParse(media[5], out a);
+                                double.TryParse(media[5], out t);
+                                double.TryParse(media[8], out ta);
+                                Common.dt.Rows.Add(AddRow(Common.dt, media[0], media[2], media[1], q, u, a, t, ta));
+                            }
+
                         }
-                        Trace.WriteLine(media.Count());
+                       // Trace.WriteLine(media.Count());
                         break;
 
                 }
 
             }
-         
+            
             //while ((line = sr.ReadLine()) != null)
             //{
             //    //Trace.WriteLine(line);
@@ -88,6 +104,26 @@ namespace InvoiceView
             //}            
             return line;
         }
+
+        private DataRow AddRow(DataTable dt, string Item_Name, string Item_Model,string Unit, double Quantity, double Unit_Price,double Amount, double Tax_Rate,double Tax_Amount)
+        {
+            DataRow dr = dt.NewRow();
+
+            dr["ItemNames"] = Item_Name;
+            dr["Model"] = Item_Model;
+            dr["Unit"] = Unit;
+            dr["Quantity"] = Quantity;
+
+            dr["UnitPrice"] = Unit_Price;
+            dr["Amount"] = Amount;
+            dr["TaxRate"] = Tax_Rate;
+            dr["TaxAmount"] = Tax_Amount;
+
+            return dr;
+
+
+        }
+
 
         private List<string> EnterSpliter(string input)
         {
