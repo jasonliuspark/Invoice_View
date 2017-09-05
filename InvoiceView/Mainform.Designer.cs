@@ -5,6 +5,7 @@ using System.Data;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 namespace InvoiceView
 {
     partial class Mainform
@@ -316,6 +317,7 @@ namespace InvoiceView
         //Darg drop
         private void MainFormDragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
+            string temp = "";
             Common.dt.Rows.Clear();
             // retrive label.Text for path 
             Invoice_Title.Text = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
@@ -328,13 +330,19 @@ namespace InvoiceView
             Tax_Payer_Iden.Text = Common.TaxerID;
             Address_Tele.Text = Common.AddressPhone;
             Bank_Account.Text = Common.AccountDetails;
-            Contract_serial.Text = Common.ContractNum;
-            IssueerName.Text = Common.Issuer;
+           // Contract_serial.Text = Common.ContractNum;
+          //  IssueerName.Text = Common.Issuer;
+            
+            temp = Common.Notes;
+            temp = temp.Replace("\\n", "\r\n");
+            //Trace.WriteLine(Common.Notes);
+           // Trace.WriteLine(temp);
+            InvoiceNote.Text = temp;
 
            Amount_Low.Text= Subtotal.SubtotalCount(Invoice_Details);
             UperConvert conv = new UperConvert();
             Amount_Upper.Text = conv.Uper(Subtotal.SubtotalCount(Invoice_Details));
-
+            
         }
 
        

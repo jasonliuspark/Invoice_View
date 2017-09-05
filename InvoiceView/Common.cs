@@ -18,7 +18,8 @@ namespace InvoiceView
         private static string taxerID = "";
         private static string addressPhone = "";
         private static string accountDetails = "";
-
+        private static string notes = "";
+        private static string invoiceSerial = "";
         public static DataTable dt = new DataTable();
         //arrays
         //货物或应税劳务名称
@@ -40,11 +41,23 @@ namespace InvoiceView
 
         
 
-
+        
         public static string CompanyName
         {
             get { return companyName; }
             set { companyName = value; }
+
+        }
+        public static string InvoiceSerial  
+        {
+            get { return invoiceSerial; }
+            set { invoiceSerial = value; }
+
+        }
+        public static string Notes
+        {
+            get { return notes; }
+            set { notes = value; }
 
         }
         public static string ContractNum

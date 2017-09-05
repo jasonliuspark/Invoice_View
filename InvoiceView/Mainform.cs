@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.IO;
 
 namespace InvoiceView
 {
@@ -27,8 +28,41 @@ namespace InvoiceView
 
         private void Generate_Click(object sender, EventArgs e)
         {
+            SaveFileDialog sdf = new SaveFileDialog();
+            sdf.Filter = "invoice(*.txt)|";
+            //sdf.FilterIndex = 1;
+            sdf.RestoreDirectory = true;
+            sdf.FileName = Common.InvoiceSerial+"_New"+".txt";
+            if (sdf.ShowDialog() == DialogResult.OK)
+            {
+               
+                string localFilePath = sdf.FileName.ToString();     //获得文件路径 
+                using (StreamReader sr = new StreamReader(Invoice_Title.Text,Encoding.Default))
+                {
+                    String txt = sr.ReadToEnd();
+                    Replacer rep = new Replacer();
+                    string temp="";
+
+                     txt= rep.Replace_new(Common.CompanyName, Company_Name.Text, txt);
+                    txt = rep.Replace_new(Common.TaxerID, Tax_Payer_Iden.Text, txt);
+                    txt = rep.Replace_new(Common.AddressPhone, Address_Tele.Text, txt);
+                    txt = rep.Replace_new(Common.AccountDetails, Bank_Account.Text, txt);
+                    temp = InvoiceNote.Text.Replace("\r\n","\\n");
+                    txt = rep.Replace_new(Common.Notes, temp, txt);
+
+
+                    using (StreamWriter sw = new StreamWriter(localFilePath,false,Encoding.Default))
+                    {
+                        sw.Write(txt);
+                        sw.Flush();
+                    }
+                }
+
+
+            }
 
         }
+        
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {

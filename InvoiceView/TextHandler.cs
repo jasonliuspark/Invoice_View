@@ -45,17 +45,19 @@ namespace InvoiceView
                             //}
                             List<string> temp = new List<string>();
                             temp = EnterSpliter(media[6]);
-
-                            string num=temp[1].Replace("客户合同号:", "");
-                            string issuer = temp[2].Replace("开票方:", "") ;
-
+                            
+                            
+                            //    string num = temp[1].Replace("客户合同号:", "");
+                            //    string issuer = temp[2].Replace("开票方:", "");
+                            
+                            Common.InvoiceSerial = media[0];
                             Common.CompanyName = media[2];
                             Common.TaxerID = media[3];
                             Common.AddressPhone = media[4];
                             Common.AccountDetails = media[5];
-                            Common.ContractNum = num;
-                            Common.Issuer = issuer;
-
+                          //  Common.ContractNum = num;
+                          //  Common.Issuer = issuer;
+                            Common.Notes = media[6];
                         }
                         Trace.WriteLine(media.Count());
                         break;
